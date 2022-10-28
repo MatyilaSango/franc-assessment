@@ -1,0 +1,61 @@
+<html>
+    <body>
+        <h1>Hello!
+        {% if username %}
+            {{ username }}
+        {% endif %}
+        </h1>
+        {% if not username %}
+            <p><b>Users: </b></p>
+            <span style="display: none;" id="list-of-users">{{ users }}</span>
+            <ul id="user-list">
+                <script>
+                    var userList = document.getElementById("user-list");
+                    const users = JSON.parse(document.getElementById("list-of-users").innerHTML);
+                    for(var i=0; i<users.length; i++){
+                        userList.innerHTML +=  "<li><a href=/?username="+users[i]+">"+users[i]+"</a></li>"
+                    }
+                </script>
+            </ul>
+            <p>Add user: </p>
+            <form action="/">
+                <input style="width: 150px; margin-bottom: 10px;" type="text" name="new-user" placeholder="Enter name!" />
+                <input type="submit" value="save" />
+            </form>
+        {% else %}
+            <form action="/" >
+                <textarea style="width: 200px; height: 100px;" name="new-post" id="newPost" placeholder="Enter a new post!!!" ></textarea>
+                <input type="hidden" name="username" value={{ username }} />
+                <input type="submit" value="Save" />
+            </form>
+            <p>Your tweets including friends tweets:</p>
+            <span style="display: none;" id="list-of-tweets">{{ tweets }}</span>
+            <ul id="tweet-list">
+                <!--<li>first tweet</li>-->
+            </ul>
+            <br />
+            <p>Your friends:</p>
+            <span style="display: none;" id="list-of-friends">{{ friends }}</span>
+            <ul id="friend-list">
+                <!--<li>friends</li>-->
+            </ul>
+        {% endif %}
+    </body>
+    <script type="text/javascript">
+        var tweetList = document.getElementById("tweet-list");
+        const tweets = JSON.parse(document.getElementById("list-of-tweets").innerHTML);
+        for(var i=0; i<tweets.length; i++){
+            tweetList.innerHTML +=  "<li>"+tweets[i].time+"<br />"+tweets[i].status+"</li>"
+        }
+
+        var friendList = document.getElementById("friend-list");
+        const friends = JSON.parse(document.getElementById("list-of-friends").innerHTML);
+        for(var i=0; i<friends.length; i++){
+            friendList.innerHTML +=  "<li><a href=/?username="+friends[i]+">"+friends[i]+"</a></li>"
+        }
+
+        
+        
+    </script>
+
+</html>
